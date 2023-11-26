@@ -1,8 +1,16 @@
 import openai
+from dotenv import load_dotenv
+import os
 
 # OpenAI API 키 설정
-openai.api_key = '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'
+# .env 파일 로드
+load_dotenv()
 
+# API 키 가져오기
+api_key = os.getenv("OPENAI_API_KEY")
+
+# OpenAI API 키 설정
+openai.api_key = api_key
 def generate_review(prompt):
     # GPT-3 API 호출
     response = openai.Completion.create(
