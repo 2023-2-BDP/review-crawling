@@ -19,11 +19,11 @@ def generate_review(prompt):
     return generated_review
 
 # 특정 프롬프트로 리뷰 생성
-prompt_text = "너는 지금부터 아는 사람에게 상품에 대한 소감을 얘기할거야. " \
-              "언어는 한국어이고, 분량은 3줄이야. " \
-              "네가 얘기할 내용에는 상품의 이름, 장단점, 소감의 내용이 들어갈 거야. " \
-              "다시 한 번 얘기하지만 모든 내용은 문장 형태로 설명하는 내용이어야 해." \
-              "마지막 내용에는 '끝입니다.'라고 덧붙여줘."
+prompt_text = "From now on, you will tell your feelings about the product to someone you know. " \
+              "The language is Korean, and the amount is 3 lines. " \
+              "What you're going to talk about will include the name of the product, " \
+              "its pros and cons, and how you feel. Once again, everything should be explained in the form of a sentence. " \
+              "At the end, add, '끝입니다.'"
 generated_review = generate_review(prompt_text)
 
 # 생성된 리뷰 출력
