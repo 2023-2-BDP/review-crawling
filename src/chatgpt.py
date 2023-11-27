@@ -2,6 +2,8 @@ import openai
 from dotenv import load_dotenv
 import os
 
+from src.utils.add_data_to_csvfile import add_data_to_csvfile
+
 # OpenAI API 키 설정
 # .env 파일 로드
 load_dotenv()
@@ -36,11 +38,25 @@ prompt_text = "Q: 헤드셋 리뷰 A: 너무 잘샀어요.대만족입니다.	" 
               "Q:주먹밥 리뷰 " \
               "A:아침마다 일어나서 밥챙겨 먹기가 힘이들더라구요!그래도 아침은 먹어야 하루가 힘이나서 찾다가 가성비 좋은 주먹밥을 발견했습니다!" \
               "소불2개 참치2개 불닭2개 로제2개 김치2개 까치2개로총 12개로 구비되어 있습니다!여러가지 맛이 있어서 아주 마음에 들었어요!" \
-              "근데 너무 맛있어서 2주면 다먹더라구요!칼로리는 종류별로 다른데요 최소 170kcal~218kcal입니다!일반적이 즉석밥 칼로리라고 생각하시면 됩니다!여러가지 양념과 재료가 들어갔는데 이정도 " \
+              "근데 너무 맛있어서 2주면 다먹더라구요!칼로리는 종류별로 다른데요 최소 170kcal~218kcal입니다!일반적인 즉석밥 칼로리라고 생각하시면 됩니다!여러가지 양념과 재료가 들어갔는데 이정도 " \
               "칼로리면굉장히 저 칼로리라고 생각이 들어요!간단하게 아침에 대용으로 먹기좋은 주먹밥이였구요!맛은 있었어요! 조리법도 간단하고!자주 구매해서 먹을것 같습니다 만족스러운 제품이에요!" \
               "Q:노트북 리뷰" \
               "A:"
 generated_review = generate_review(prompt_text)
-
 # 생성된 리뷰 출력
 print(generated_review)
+
+# 리뷰 텍스트를 문장 단위로 분할
+sentences = generated_review.split(".")
+
+headline = sentences[0].strip()                       # 첫 번째 문장을 headline으로 저장
+review_content = ".".join(sentences[1:]).strip()      # 나머지 문장들을 review_content로 저장
+
+# 데이터 구성
+review_data = {"headline": headline, "review_content": review_content}
+
+# CSV
+add_data_to_csvfile(
+    path='../result/chatgpt_reviews.csv',
+    data=[review_data],
+    sep='\t', encoding='UTF-8')
