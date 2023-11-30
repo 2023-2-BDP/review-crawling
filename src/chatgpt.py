@@ -16,12 +16,12 @@ openai.api_key = api_key
 def generate_review(prompt):
     # GPT-3 API 호출
     response = openai.Completion.create(
-        engine="text-davinci-002",  # 또는 "text-davinci-002" 사용 가능
+        engine="text-davinci-002",
         prompt=prompt,
         max_tokens=1000,  # 생성할 토큰의 최대 수
         temperature=0.7,  # 높은 값일수록 생성이 더 다양해집니다. (0.0 ~ 1.0)
         n=1,  # 생성할 리뷰의 수
-        stop="끝입니다."  # 생성을 멈출 단어 목록
+        stop=""  # 생성을 멈출 단어 목록
     )
 
     # API 응답에서 생성된 리뷰 추출
@@ -42,21 +42,25 @@ prompt_text = "Q: 헤드셋 리뷰 A: 너무 잘샀어요.대만족입니다.	" 
               "칼로리면굉장히 저 칼로리라고 생각이 들어요!간단하게 아침에 대용으로 먹기좋은 주먹밥이였구요!맛은 있었어요! 조리법도 간단하고!자주 구매해서 먹을것 같습니다 만족스러운 제품이에요!" \
               "Q:노트북 리뷰" \
               "A:"
-generated_review = generate_review(prompt_text)
-# 생성된 리뷰 출력
-print(generated_review)
 
-# 리뷰 텍스트를 문장 단위로 분할
-sentences = generated_review.split(".")
 
-headline = sentences[0].strip()                       # 첫 번째 문장을 headline으로 저장
-review_content = ".".join(sentences[1:]).strip()      # 나머지 문장들을 review_content로 저장
 
-# 데이터 구성
-review_data = {"headline": headline, "review_content": review_content}
+for i in range (3):
+    generated_review = generate_review(prompt_text)
+    # 생성된 리뷰 출력
+    print(generated_review)
 
-# CSV
-add_data_to_csvfile(
-    path='../result/chatgpt_reviews.csv',
-    data=[review_data],
-    sep='\t', encoding='UTF-8')
+    # 리뷰 텍스트를 문장 단위로 분할
+    sentences = generated_review.split(".")
+
+    headline = sentences[0].strip()                       # 첫 번째 문장을 headline으로 저장
+    review_content = ".".join(sentences[1:]).strip()      # 나머지 문장들을 review_content로 저장
+
+    # 데이터 구성
+    review_data = {"headline": headline, "review_content": review_content}
+
+    # CSV
+    add_data_to_csvfile(
+        path='../result/chatgpt_reviews.csv',
+        data=[review_data],
+        sep='\t', encoding='UTF-8')
