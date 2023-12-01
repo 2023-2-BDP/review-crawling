@@ -3,7 +3,6 @@ from typing import Optional, Union, Dict, List
 import requests as rq
 import time
 import re
-import json
 from utils.get_headers import get_headers
 
 
@@ -13,7 +12,6 @@ class Coupang:
             "json/headers_coupang.json", key="headers"
         )
         self.default_review_page_count = 5  # 리뷰 페이지 개수 기본값
-        self.default_product_link_count = 10  # 상품 링크 개수 기본값
 
     def get_reviews(self, url: str) -> List[Dict[str, Union[str, int]]]:
         """
@@ -130,6 +128,7 @@ class Coupang:
         검색어를 입력받아 상품 URL을 반환하는 메소드\n
         상위 N개의 상품 - self.default_product_link_count
         """
+        default_product_link_count = 50  # 상품 링크 개수 기본값
         search_url = (
             f"https://www.coupang.com/np/search?component=&q={search_word}&channel=user"
         )
@@ -140,7 +139,7 @@ class Coupang:
                 product_links = [
                     f'{self.__headers["origin"]}{link.select_one("a").attrs["href"]}'
                     for link in soup.select(".search-product")[
-                        : self.default_product_link_count
+                        :default_product_link_count
                     ]
                 ]
                 return product_links
