@@ -1,4 +1,3 @@
-import time
 from coupang import Coupang
 from utils.add_data_to_csvfile import add_data_to_csvfile
 from utils.url_editor import remove_query_params
