@@ -30,7 +30,10 @@ def make_combi(a: list, b: list):
     lst = []
     for x in a:
         for y in b:
-            lst.append(x + " " + y)
+            if x == "":
+                lst.append(y)
+            else:
+                lst.append(x + " " + y)
     return lst
 
 
@@ -51,4 +54,4 @@ for key in product_list.keys():
         COMBI_PRODUCT_LIST.append(x)
 
 if __name__ == "__main__":
-    print(len(COMBI_PRODUCT_LIST))
+    print(COMBI_PRODUCT_LIST)

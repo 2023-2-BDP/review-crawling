@@ -39,6 +39,3 @@ def remove_query_params(url: str, __params_to_remove: Union[str, Iterable[str]])
     new_qs = {key: qs[key] for key in qs.keys() if key not in __params_to_remove}
 
     return f"{url.split('?')[0]}?{unparse_qs(new_qs)}"
-
-
-print(encode_query_params("https://coupang.com?q=패딩&a=ss", "a"))
