@@ -13,6 +13,5 @@ def add_data_to_csvfile(
         # 파일이 비어있을 경우
         if os.path.getsize(path) == 0:
             file.write(sep.join(data[0].keys()) + "\n")
-
         for idx in range(len(data)):
             file.write(sep.join(map(str, data[idx].values())) + "\n")
