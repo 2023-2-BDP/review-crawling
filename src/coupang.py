@@ -145,12 +145,18 @@ class Coupang:
             with session.get(url=search_url, headers=self.__headers) as response:
                 html = response.text
                 soup = bs(html, "html.parser")
-                product_links = [
-                    f'{self.__headers["origin"]}{link.select_one("a").attrs["href"]}'
-                    for link in soup.select(".search-product")[
-                        :default_product_link_count
-                    ]
-                ]
+                product_links = []
+                for link in soup.select(".search-product")[:default_product_link_count]:
+                    if "data-product-link" in link.select_one("a").attrs:
+                        product_links.append(
+                            f'{self.__headers["origin"]}{link.select_one("a").attrs["data-product-link"]}'
+                        )
+                # product_links = [
+                #     f'{self.__headers["origin"]}{link.select_one("a").attrs["href"]}'
+                #     for link in soup.select(".search-product")[
+                #         :default_product_link_count
+                #     ]
+                # ]
                 return product_links
 
     def get_review_count(self, product_link: str):
@@ -170,20 +176,20 @@ if __name__ == "__main__":
     coupang = Coupang()
 
     error_cnt = 0  # 에러 횟수가 1000번 이상이면 프로그램 종료
-    current_product = ("청바지", 23)  # 티셔츠 9번째 상품부터 재시작
+    current_product = ("보조 배터리", 1)  # 티셔츠 9번째 상품부터 재시작
     start_crawling = False
 
     for search_word in COMBI_PRODUCT_LIST:
         product_links = coupang.get_product_links_by_search_word(search_word)
         # 한국어 encode 에러 문제로 q= 에 해당하는 param 제거
         product_links = [remove_query_params(link, "q") for link in product_links]
+
         for i, link in enumerate(product_links):
             # 특정 상품부터 재시작 설정
             if current_product == (search_word, i + 1):
                 start_crawling = True
             if not start_crawling:
                 continue
-
             try:
                 print(f"{search_word} - {i+1}번째 상품 리뷰 데이터 진행 중")
                 reviews = coupang.get_reviews(link)
