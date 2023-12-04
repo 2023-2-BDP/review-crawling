@@ -206,13 +206,7 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
+
 
 # Local History for Visual Studio Code
 .history/
@@ -224,7 +218,6 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
-.vscode
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -252,4 +245,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# test
+test*.py
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,macos,windows
