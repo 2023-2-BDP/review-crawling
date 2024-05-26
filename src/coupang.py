@@ -151,12 +151,7 @@ class Coupang:
                         product_links.append(
                             f'{self.__headers["origin"]}{link.select_one("a").attrs["data-product-link"]}'
                         )
-                # product_links = [
-                #     f'{self.__headers["origin"]}{link.select_one("a").attrs["href"]}'
-                #     for link in soup.select(".search-product")[
-                #         :default_product_link_count
-                #     ]
-                # ]
+
                 return product_links
 
     def get_review_count(self, product_link: str):
@@ -171,7 +166,7 @@ class Coupang:
 if __name__ == "__main__":
     from utils.add_data_to_csvfile import add_data_to_csvfile
     from utils.url_editor import remove_query_params
-    from product_list import COMBI_PRODUCT_LIST
+    from product_list import PRODUCT_LIST
 
     coupang = Coupang()
 
@@ -179,7 +174,7 @@ if __name__ == "__main__":
     current_product = ("보조 배터리", 1)  # 티셔츠 9번째 상품부터 재시작
     start_crawling = False
 
-    for search_word in COMBI_PRODUCT_LIST:
+    for search_word in PRODUCT_LIST:
         product_links = coupang.get_product_links_by_search_word(search_word)
         # 한국어 encode 에러 문제로 q= 에 해당하는 param 제거
         product_links = [remove_query_params(link, "q") for link in product_links]

@@ -19,10 +19,10 @@ product_list = {
 # fmt: on
 
 
-COMBI_PRODUCT_LIST: list[str] = [
+PRODUCT_LIST: list[str] = [
     product_list[key][i] for key in product_list for i in range(len(product_list[key]))
 ]
 
 
 if __name__ == "__main__":
-    print(COMBI_PRODUCT_LIST)
+    print(len(PRODUCT_LIST))
